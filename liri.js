@@ -2,7 +2,7 @@
 require("dotenv").config();
 
 // Add the code required to import the `keys.js` file and store it in a variable.
-var keys = require("./keys.js");
+var keys = require("./keys");
 
 var Spotify = require('node-spotify-api');
 
@@ -14,24 +14,24 @@ var axios = require("axios");
 
 var input = process.argv;
 var operator = input[2];
-var first = parseFloat(input[3]);
+var clientInput = input[3]
 
 ///////////////////////////////////spotify///////////////////////////////////
 
 // * `spotify-this-song`
 
-
-spotify.search({ type: 'track', query: 'All the Small Things', limit: 1 }, function(err, data) {
+function song() {
+spotify.search({ type: 'track', query: clientInput, limit: 1 }, function(err, data) {
   if (err) {
     return console.log('Error occurred: ' + err);
   }
-  console.log("Artist: "+data.tracks.items[0].artists[0]);
+  console.log("Artist: "+data.tracks.items[0].artists[0].name);
   console.log("Song Title: "+data.tracks.items[0].name);
   console.log("Song Popularity: "+data.tracks.items[0].popularity);  
   console.log("Track Number: "+data.tracks.items[0].track_number); 
   console.log("Listen here: "+data.tracks.items[0].external_urls.spotify); 
 });
-
+}
 ///////////////////////////////////IMDB///////////////////////////////////
 
 ///////////////////////////////////BandsInTown///////////////////////////////////
@@ -47,6 +47,7 @@ switch (operator) {
       console.log("COMING SOON!");
             break;
     case "spotify-this-song":
+      song();
             break;
     case "movie-this":
         console.log("COMING SOON!");
