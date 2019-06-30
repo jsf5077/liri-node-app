@@ -43,7 +43,14 @@ movie.replace(" ","+");
 // axios request to the OMDB API with the movie specified
 axios.get("http://www.omdbapi.com/?t="+movie+"&y=&plot=short&apikey=trilogy").then(
   function(response) {
-    console.log("The movie's rating is: " + response.data.imdbRating);
+    console.log("Movie Title: " + response.data.Title);
+    console.log("IMDB rating: " + response.data.Plot);
+    console.log("Actors: " + response.data.Actors);
+    console.log("Release Year: " + response.data.Year);
+    console.log("Rotten Tomatoes Rating: " + response.data.Ratings[1].Value);
+    console.log("IMDB rating: " + response.data.imdbRating);
+    console.log("Country: " + response.data.Country);
+    console.log("Language: " + response.data.Language);
   })
   .catch(function(error) {
     if (error.response) {
