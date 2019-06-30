@@ -37,11 +37,10 @@ spotify.search({ type: 'track', query: clientInput, limit: 1 }, function(err, da
 // * `movie-this`
 
 function movie() {
-  var movie = input[3];
-movie.replace(" ","+");
-
+  var movie = input[3].split(" ").join("+");
+  var movieQuery = "http://www.omdbapi.com/?t="+movie+"&y=&plot=short&apikey=trilogy"
 // axios request to the OMDB API with the movie specified
-axios.get("http://www.omdbapi.com/?t="+movie+"&y=&plot=short&apikey=trilogy").then(
+axios.get(movieQuery).then(
   function(response) {
     console.log("Movie Title: " + response.data.Title);
     console.log("IMDB rating: " + response.data.Plot);
@@ -78,19 +77,55 @@ axios.get("http://www.omdbapi.com/?t="+movie+"&y=&plot=short&apikey=trilogy").th
 
 // "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp"
 
+function band() {
+  var artist = input[3].split(" ").join("+");
+  var concertQuery = "https://rest.bandsintown.com/artists/"+artist+"/events?app_id=codingbootcamp"
+  console.log(concertQuery);
+
+// axios request to the bandsintown API with the artist specified
+// axios.get(concertQuery).then(
+//   function(response) {
+//     // console.log(response);
+//     // console.log("Artist Name: " + response[0].lineup[0]);
+//     // console.log("Venue: " + response[0].venue.name);
+//     // console.log("Location: " + response[0].venue.city+", "+response[0].venue.region);
+    
+//   })
+//   .catch(function(error) {
+//     if (error.response) {
+//       // The request was made and the server responded with a status code
+//       // that falls out of the range of 2xx
+//       console.log("---------------Data---------------");
+//       console.log(error.response.data);
+//       console.log("---------------Status---------------");
+//       console.log(error.response.status);
+//       console.log("---------------Status---------------");
+//       console.log(error.response.headers);
+//     } else if (error.request) {
+//       // The request was made but no response was received
+//       // `error.request` is an object that comes back with details pertaining to the error that occurred.
+//       console.log(error.request);
+//     } else {
+//       // Something happened in setting up the request that triggered an Error
+//       console.log("Error", error.message);
+//     }
+//     console.log(error.config);
+//   });
+}
+
 //////////////////////////////////CASE BREAK///////////////////////////////////////
 
 // Make it so liri.js can take in one of the following commands:
 
 switch (operator) {
     case "concert-this":
-      console.log("COMING SOON!");
+      band();
             break;
     case "spotify-this-song":
       song();
             break;
     case "movie-this":
-        movie();
+      movie();
             break;
     case "do-what-it-says":
         console.log("COMING SOON!");
