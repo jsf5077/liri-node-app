@@ -4,6 +4,8 @@ require("dotenv").config();
 // Add the code required to import the `keys.js` file and store it in a variable.
 var keys = require("./keys");
 
+var moment = require("moment");
+
 var Spotify = require('node-spotify-api');
 
 // You should then be able to access your keys information like so
@@ -80,37 +82,43 @@ axios.get(movieQuery).then(
 function band() {
   var artist = input[3].split(" ").join("+");
   var concertQuery = "https://rest.bandsintown.com/artists/"+artist+"/events?app_id=codingbootcamp"
-  console.log(concertQuery);
+  // console.log(concertQuery);
 
 // axios request to the bandsintown API with the artist specified
-// axios.get(concertQuery).then(
-//   function(response) {
-//     // console.log(response);
-//     // console.log("Artist Name: " + response[0].lineup[0]);
-//     // console.log("Venue: " + response[0].venue.name);
-//     // console.log("Location: " + response[0].venue.city+", "+response[0].venue.region);
-    
-//   })
-//   .catch(function(error) {
-//     if (error.response) {
-//       // The request was made and the server responded with a status code
-//       // that falls out of the range of 2xx
-//       console.log("---------------Data---------------");
-//       console.log(error.response.data);
-//       console.log("---------------Status---------------");
-//       console.log(error.response.status);
-//       console.log("---------------Status---------------");
-//       console.log(error.response.headers);
-//     } else if (error.request) {
-//       // The request was made but no response was received
-//       // `error.request` is an object that comes back with details pertaining to the error that occurred.
-//       console.log(error.request);
-//     } else {
-//       // Something happened in setting up the request that triggered an Error
-//       console.log("Error", error.message);
-//     }
-//     console.log(error.config);
-//   });
+axios.get(concertQuery).then(
+  function(response) {
+    for (i=0; i < 3; i++){
+    console.log("---------- Concert Event ----------")
+    console.log("Venue: " + response.data[i].venue.name);
+    console.log("Date: " + moment(response.data[i].datetime).format("MM/DD/YYYY"+" h:mm A"));
+    console.log("Location: " + response.data[i].venue.city+", "+response.data[i].venue.region);
+    console.log("Performing Artists: ")
+    for(j=0; j < response.data[i].lineup.length; j++) {
+      console.log("      "+response.data[i].lineup[j]);
+    }
+    console.log("More Information: " + response.data[i].url);
+  }
+})
+  .catch(function(error) {
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      console.log("---------------Data---------------");
+      console.log(error.response.data);
+      console.log("---------------Status---------------");
+      console.log(error.response.status);
+      console.log("---------------Status---------------");
+      console.log(error.response.headers);
+    } else if (error.request) {
+      // The request was made but no response was received
+      // `error.request` is an object that comes back with details pertaining to the error that occurred.
+      console.log(error.request);
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      console.log("Error", error.message);
+    }
+    console.log(error.config);
+  });
 }
 
 //////////////////////////////////CASE BREAK///////////////////////////////////////
