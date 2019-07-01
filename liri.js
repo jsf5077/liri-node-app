@@ -8,6 +8,8 @@ var moment = require("moment");
 
 var Spotify = require('node-spotify-api');
 
+var fs = require('fs');
+
 // You should then be able to access your keys information like so
 var spotify = new Spotify(keys.spotify);
 
@@ -17,9 +19,16 @@ var axios = require("axios");
 var input = process.argv;
 var operator = input[2];
 var clientInput = input[3]
+var log = operator+" '"+clientInput+"' \r\n"
+console.log(log);
 
+fs.appendFile("log.txt",log, 'utf8',
+function(err) { 
+  if (err) throw err;
+  // if no error
+  // console.log("Data is appended to file successfully.")
+});
 ///////////////////////////////////spotify///////////////////////////////////
-
 // * `spotify-this-song`
 
 function song() {
@@ -77,7 +86,7 @@ axios.get(movieQuery).then(
 }
 ///////////////////////////////////BandsInTown///////////////////////////////////
 
-// "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp"
+
 
 function band() {
   var artist = input[3].split(" ").join("+");
@@ -121,8 +130,22 @@ axios.get(concertQuery).then(
     }
     console.log(error.config);
   });
-}
+};
 
+//////////////////////////////////DO WHAT IT SAYS///////////////////////////////////////
+
+function doIt() {
+  fs.readFile("random.txt", "utf8", function(error, data) {
+    if (error) {
+        return console.log(error);
+    }
+    var dataArr = data.split(',');
+    console.log(dataArr);
+    operator = dataArr[0];
+    clientInput = dataArr[1];
+    song();
+  })
+}
 //////////////////////////////////CASE BREAK///////////////////////////////////////
 
 // Make it so liri.js can take in one of the following commands:
@@ -153,11 +176,23 @@ switch (operator) {
       }
             break;
     case "do-what-it-says":
-        console.log("COMING SOON!");
+        doIt();
             break;
-       
+    default:
+      console.log("Welcome to LIRI.");
+      console.log(" ");
+      console.log("You can use LIRI with four commands to get info about your favorite songs, movies, and upcoming artists of your favorite bands/artists ");
+      console.log(" ");
+      console.log("           ------ WARNING ------");
+      console.log(" ");
+      console.log("Your search term following your chosen command must be enclosed in parentheses");
+      console.log(" ");
+      console.log("           ------ COMMANDS ------");
+      console.log(" ");
+      console.log("'spotify-this-song' followed by a song name will provide information about your song choice.");
+      console.log("     If you do not get the specified information you seek, include the artist name in the search to narrow the results.");
+      console.log("'movie-this' followed by a movie title will provide information about your movie choice.");
+      console.log("'concert-this' followed by a band/artist name will provide information about the band's/artists three upcoming concerts.");
+      console.log("'do-what-it-says' this will give a surprise answer");      
 }
 
-// * `movie-this`
-
-// * `do-what-it-says`

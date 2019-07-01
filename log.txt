@@ -1,0 +1,6 @@
+spotify-this-song 'i am the fire'
+spotify-this-song 'i am the fire Halestorm'
+spotify-this-song 'i am the fire Halestorm' 
+spotify-this-song 'welcome to the jungle' 
+undefined 'undefined' 
+concert-this 'Metallica' 
