@@ -82,13 +82,14 @@ axios.get(movieQuery).then(
 function band() {
   var artist = input[3].split(" ").join("+");
   var concertQuery = "https://rest.bandsintown.com/artists/"+artist+"/events?app_id=codingbootcamp"
-  // console.log(concertQuery);
 
 // axios request to the bandsintown API with the artist specified
 axios.get(concertQuery).then(
   function(response) {
     for (i=0; i < 3; i++){
+    console.log(" ")
     console.log("---------- Concert Event ----------")
+    console.log(" ")
     console.log("Venue: " + response.data[i].venue.name);
     console.log("Date: " + moment(response.data[i].datetime).format("MM/DD/YYYY"+" h:mm A"));
     console.log("Location: " + response.data[i].venue.city+", "+response.data[i].venue.region);
@@ -96,6 +97,7 @@ axios.get(concertQuery).then(
     for(j=0; j < response.data[i].lineup.length; j++) {
       console.log("      "+response.data[i].lineup[j]);
     }
+    console.log(" ")
     console.log("More Information: " + response.data[i].url);
   }
 })
@@ -127,13 +129,28 @@ axios.get(concertQuery).then(
 
 switch (operator) {
     case "concert-this":
+      if (!input[3]) {
+        input[3] = "Halestorm"
+        band();
+      } else {
       band();
+      }
             break;
     case "spotify-this-song":
+      if (!clientInput) {
+        clientInput = "The Sign Ace of Base"
+        song();
+      } else {
       song();
+      }
             break;
     case "movie-this":
+      if (!input[3]) {
+        input[3] = "Mr. Nobody"
+        movie();
+      } else {
       movie();
+      }
             break;
     case "do-what-it-says":
         console.log("COMING SOON!");
