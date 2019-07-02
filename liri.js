@@ -89,7 +89,8 @@ axios.get(movieQuery).then(
 
 
 function band() {
-  var artist = input[3].split(" ").join("+");
+  var artist =clientInput.split(" ").join("+");
+  console.log(artist);
   var concertQuery = "https://rest.bandsintown.com/artists/"+artist+"/events?app_id=codingbootcamp"
 
 // axios request to the bandsintown API with the artist specified
@@ -141,58 +142,73 @@ function doIt() {
     }
     var dataArr = data.split(',');
     console.log(dataArr);
-    operator = dataArr[0];
-    clientInput = dataArr[1];
-    song();
+
+    input[2] = dataArr[0];
+    input[3] = dataArr[1];
+
+    operator = input[2];
+    //discovered an issue where the quotes were kept when brought over to the switchBreak function.
+    //For the most part it wasn't an issue except for concert-this in which the quotes were causing a faulty return in the query
+    //this little trick I discovered on stackoverflow helped with my issue.
+    //https://stackoverflow.com/questions/19156148/i-want-to-remove-double-quotes-from-a-string
+    clientInput = input[3].replace(/['"]+/g, '');
+    
+    
+
+    // console.log(operator);
+    // console.log(clientInput);
+
+    switchBreak();
   })
 }
 //////////////////////////////////CASE BREAK///////////////////////////////////////
 
 // Make it so liri.js can take in one of the following commands:
-
-switch (operator) {
-    case "concert-this":
-      if (!input[3]) {
-        input[3] = "Halestorm"
+function switchBreak() {
+  switch (operator) {
+      case "concert-this":
+        if (!clientInput) {
+          clientInput = "Halestorm"
+          band();
+        } else {
         band();
-      } else {
-      band();
-      }
-            break;
-    case "spotify-this-song":
-      if (!clientInput) {
-        clientInput = "The Sign Ace of Base"
+        }
+              break;
+      case "spotify-this-song":
+        if (!clientInput) {
+          clientInput = "The Sign Ace of Base"
+          song();
+        } else {
         song();
-      } else {
-      song();
-      }
-            break;
-    case "movie-this":
-      if (!input[3]) {
-        input[3] = "Mr. Nobody"
+        }
+              break;
+      case "movie-this":
+        if (!clientInput) {
+          clientInput = "Mr. Nobody"
+          movie();
+        } else {
         movie();
-      } else {
-      movie();
-      }
-            break;
-    case "do-what-it-says":
-        doIt();
-            break;
-    default:
-      console.log("Welcome to LIRI.");
-      console.log(" ");
-      console.log("You can use LIRI with four commands to get info about your favorite songs, movies, and upcoming artists of your favorite bands/artists ");
-      console.log(" ");
-      console.log("           ------ WARNING ------");
-      console.log(" ");
-      console.log("Your search term following your chosen command must be enclosed in parentheses");
-      console.log(" ");
-      console.log("           ------ COMMANDS ------");
-      console.log(" ");
-      console.log("'spotify-this-song' followed by a song name will provide information about your song choice.");
-      console.log("     If you do not get the specified information you seek, include the artist name in the search to narrow the results.");
-      console.log("'movie-this' followed by a movie title will provide information about your movie choice.");
-      console.log("'concert-this' followed by a band/artist name will provide information about the band's/artists three upcoming concerts.");
-      console.log("'do-what-it-says' this will give a surprise answer");      
-}
-
+        }
+              break;
+      case "do-what-it-says":
+          doIt();
+              break;
+      default:
+        console.log("Welcome to LIRI.");
+        console.log(" ");
+        console.log("You can use LIRI with four commands to get info about your favorite songs, movies, and upcoming artists of your favorite bands/artists ");
+        console.log(" ");
+        console.log("           ------ WARNING ------");
+        console.log(" ");
+        console.log("Your search term following your chosen command must be enclosed in parentheses");
+        console.log(" ");
+        console.log("           ------ COMMANDS ------");
+        console.log(" ");
+        console.log("'spotify-this-song' followed by a song name will provide information about your song choice.");
+        console.log("     If you do not get the specified information you seek, include the artist name in the search to narrow the results.");
+        console.log("'movie-this' followed by a movie title will provide information about your movie choice.");
+        console.log("'concert-this' followed by a band/artist name will provide information about the band's/artists three upcoming concerts.");
+        console.log("'do-what-it-says' this will give a surprise answer");      
+  }
+};
+switchBreak();
