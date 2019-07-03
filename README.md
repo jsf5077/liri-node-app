@@ -9,7 +9,7 @@ Much like Apple's SIRI application, LIRI intakes specific commands and gives cus
 ### Commands to run LIRI
 
 Follow the format presented in these queries
-```
+
 -node liri.js concert-this'<artist name here>'
     * Shows the following information about the Artists three upcoming concerts in terminal/bash window.
         * Venue
@@ -42,7 +42,7 @@ Follow the format presented in these queries
 
 -node liri.js do-what-it-says
     * Well now you've done it... LIRI will now commit a random search of her choice supplied by whatever information exists in the        random.txt file. 
-```
+
 ### Essential Nodes used
 
 moment
