@@ -34,11 +34,15 @@ function(err) {
 function song() {
 spotify.search({ type: 'track', query: clientInput, limit: 1 }, function(err, data) {
   if (err) {
-    return console.log('Error occurred: ' + err);
+    console.log('Error occurred: ' + err);
+    console.log("I am sorry, but I am unable to process your request at this time")
+    return
   }
+
   console.log("Artist: "+data.tracks.items[0].artists[0].name);
   console.log("Song Title: "+data.tracks.items[0].name);
-  console.log("Song Popularity: "+data.tracks.items[0].popularity);  
+  console.log("Song Popularity: "+data.tracks.items[0].popularity);
+  console.log("Album: "+data.tracks.items[0].album.name);  
   console.log("Track Number: "+data.tracks.items[0].track_number); 
   console.log("Listen here: "+data.tracks.items[0].external_urls.spotify); 
 });
@@ -54,7 +58,7 @@ function movie() {
 axios.get(movieQuery).then(
   function(response) {
     console.log("Movie Title: " + response.data.Title);
-    console.log("IMDB rating: " + response.data.Plot);
+    console.log("Synopsis: " + response.data.Plot);
     console.log("Actors: " + response.data.Actors);
     console.log("Release Year: " + response.data.Year);
     console.log("Rotten Tomatoes Rating: " + response.data.Ratings[1].Value);
@@ -72,15 +76,21 @@ axios.get(movieQuery).then(
       console.log(error.response.status);
       console.log("---------------Status---------------");
       console.log(error.response.headers);
+      console.log("I am sorry, but I am unable to process your request at this time")
+
     } else if (error.request) {
       // The request was made but no response was received
       // `error.request` is an object that comes back with details pertaining to the error that occurred.
       console.log(error.request);
+      console.log("I am sorry, but I am unable to process your request at this time")
+
     } else {
       // Something happened in setting up the request that triggered an Error
       console.log("Error", error.message);
     }
     console.log(error.config);
+    console.log("I am sorry, but I am unable to process your request at this time")
+
   });
 
 }
@@ -121,15 +131,23 @@ axios.get(concertQuery).then(
       console.log(error.response.status);
       console.log("---------------Status---------------");
       console.log(error.response.headers);
+      console.log("I am sorry, but I am unable to process your request at this time")
+
     } else if (error.request) {
       // The request was made but no response was received
       // `error.request` is an object that comes back with details pertaining to the error that occurred.
       console.log(error.request);
+      console.log("I am sorry, but I am unable to process your request at this time")
+
     } else {
       // Something happened in setting up the request that triggered an Error
       console.log("Error", error.message);
+      console.log("I am sorry, but I am unable to process your request at this time")
+
     }
     console.log(error.config);
+    console.log("I am sorry, but I am unable to process your request at this time");
+
   });
 };
 
@@ -138,7 +156,9 @@ axios.get(concertQuery).then(
 function doIt() {
   fs.readFile("random.txt", "utf8", function(error, data) {
     if (error) {
-        return console.log(error);
+        console.log(error);
+        console.log("I am sorry, but I am unable to process your request at this time");
+        return;
     }
     var dataArr = data.split(',');
     console.log(dataArr);
