@@ -18,7 +18,7 @@ var axios = require("axios");
 
 var input = process.argv;
 var operator = input[2];
-var clientInput = input[3]
+var clientInput = input[3];
 var log = operator+" '"+clientInput+"' \r\n"
 console.log(log);
 
@@ -52,7 +52,7 @@ spotify.search({ type: 'track', query: clientInput, limit: 1 }, function(err, da
 // * `movie-this`
 
 function movie() {
-  var movie = input[3].split(" ").join("+");
+  var movie = clientInput.split(" ").join("+");
   var movieQuery = "http://www.omdbapi.com/?t="+movie+"&y=&plot=short&apikey=trilogy"
 // axios request to the OMDB API with the movie specified
 axios.get(movieQuery).then(
